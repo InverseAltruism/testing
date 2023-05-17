@@ -290,25 +290,25 @@ window.addEventListener('DOMContentLoaded', () => {
   // Connect Wallet button click event
   const connectButton = document.getElementById('connectButton');
   connectButton.addEventListener('click', async () => {
-    // Check if MetaMask is installed
-    if (window.ethereum) {
-      try {
-        // Request user's permission to connect
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        console.log('Wallet connected successfully!');
+   // Check if MetaMask is installed
+   if (window.ethereum) {
+    try {
+      // Request user's permission to connect
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      console.log('Wallet connected successfully!');
 
-        // Initialize ethers.js and contracts after connecting the wallet
-        provider = new ethers.providers.Web3Provider(window.ethereum);
-        signer = provider.getSigner();
-        stakingContract = new ethers.Contract('0x973da004D844384f7Cf1f5C338f61f970fAA4423', stakingContractABI, signer);
+      // Initialize ethers.js and contracts after connecting the wallet
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+      signer = provider.getSigner();
+      stakingContract = new ethers.Contract('0x973da004D844384f7Cf1f5C338f61f970fAA4423', stakingContractABI, signer);
 
-      } catch (error) {
-        console.error('Failed to connect wallet:', error);
-      }
-    } else {
-      console.error('MetaMask extension not detected!');
+    } catch (error) {
+      console.error('Failed to connect wallet:', error);
     }
-  });
+  } else {
+    console.error('MetaMask extension not detected!');
+  }
+});
 
   // Stake button click event
   const stakeButton = document.getElementById('stakeButton');
