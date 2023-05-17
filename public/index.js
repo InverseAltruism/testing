@@ -1,4 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
+  console.log(ethers);
   let provider;
   let signer;
   let stakingContract;
