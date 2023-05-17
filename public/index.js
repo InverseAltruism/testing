@@ -4,10 +4,289 @@ window.addEventListener('DOMContentLoaded', () => {
   let signer;
   let stakingContract;
 
-  const STAKING_CONTRACT_ADDRESS = '0x973da004D844384f7Cf1f5C338f61f970fAA4423'; // Update to your actual contract address
+  const STAKING_CONTRACT_ADDRESS = '0x973da004D844384f7Cf1f5C338f61f970fAA4423';
   const stakingContractABI = [
-    // Your ABI data
-  ]
+	{
+		"inputs": [],
+		"name": "exit",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getReward",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract IERC20",
+				"name": "_plsDoge",
+				"type": "address"
+			},
+			{
+				"internalType": "contract IERC20",
+				"name": "_plsBone",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "reward",
+				"type": "uint256"
+			}
+		],
+		"name": "RewardPaid",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "stake",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "Staked",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "withdraw",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "Withdrawn",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "earned",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "lastUpdatedBlock",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "plsBone",
+		"outputs": [
+			{
+				"internalType": "contract IERC20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "plsDoge",
+		"outputs": [
+			{
+				"internalType": "contract IERC20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "rewardPerToken",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "rewardPerTokenStored",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "rewardRate",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "rewards",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "userRewardPerTokenPaid",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
 
   // Connect Wallet button click event
   const connectButton = document.getElementById('connectButton');
@@ -15,37 +294,43 @@ window.addEventListener('DOMContentLoaded', () => {
     // Check if MetaMask is installed
     if (window.ethereum) {
       try {
-        // Request user's permission to connect
+        // Request account access
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        console.log('Wallet connected successfully!');
+        const userAccount = accounts[0];
+        console.log(`User account: ${userAccount}`);
 
-        // Initialize ethers.js and contracts after connecting the wallet
-        provider = new ethers.BrowserProvider(window.ethereum);
+        // We don't know network version until we query it. We will use it later.
+        const networkVersion = await window.ethereum.request({ method: 'net_version' });
+        console.log(`Network version: ${networkVersion}`);
+
+        // Initialize ethers.js provider and signer
+        provider = new ethers.providers.Web3Provider(window.ethereum, "any");
         signer = provider.getSigner();
+
+        // Initialize staking contract
         stakingContract = new ethers.Contract(STAKING_CONTRACT_ADDRESS, stakingContractABI, signer);
 
       } catch (error) {
-        console.error('Failed to connect wallet:', error);
+        console.error("User denied account access");
       }
     } else {
-      console.error('MetaMask extension not detected!');
+      console.log("MetaMask is not installed");
     }
   });
 
   // Stake button click event
   const stakeButton = document.getElementById('stakeButton');
   stakeButton.addEventListener('click', async () => {
-    const stakeAmount = document.getElementById('stakeAmount').value;
+    const amount = document.getElementById('amount').value;
+    const amountToWei = ethers.utils.parseEther(amount);
+
     try {
-      // Call the staking function on your contract
-      const tx = await stakingContract.stake(ethers.utils.parseEther(stakeAmount));
-      await tx.wait();
-      console.log('Staking transaction successful!');
+      const tx = await stakingContract.stake(amountToWei);
+      console.log('Transaction sent: ', tx);
     } catch (error) {
-      console.error('Failed to stake:', error);
+      console.error('Error occurred: ', error);
     }
   });
-
   // Redeem button click event
   const redeemButton = document.getElementById('redeemButton');
   redeemButton.addEventListener('click', async () => {
